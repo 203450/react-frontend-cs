@@ -1,0 +1,43 @@
+.container_profile{
+    text-align: center;
+    width: 500px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to bottom, rgb(185, 185, 185), white 80%, rgb(185, 185, 185));
+    border-radius: 1%;
+}
+
+.img_profile{
+    clip-path: circle(at center);
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.fields_profile input{
+    border: none;
+    border-bottom: 1px solid rgb(66, 66, 66);
+    background: none;
+    cursor: default;
+    width: 100%;
+    text-align: center;
+    top: 70px;
+    font-size: 50px;
+    padding: 1px;
+    margin: 10px;
+    
+}
+
+.fields_profile{
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+input:focus{
+    outline: none;
+}
+
+

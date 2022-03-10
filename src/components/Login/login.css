@@ -1,0 +1,49 @@
+
+
+:root{
+    --colorTexto: rgb(61, 61, 61);
+}
+
+.box_login{
+
+    text-align: center;
+    width: 425px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to bottom, rgb(185, 185, 185), white 80%, rgb(185, 185, 185));
+    border-radius: 1%;
+}
+
+.label_login{
+    
+	font-weight:bold;
+    color:rgb(0, 0, 0);
+}
+
+.cuadrito_login{
+    
+	background-color: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 10px 10px 5px;
+    font-size: 18px;
+    text-decoration: none;
+    display: block;
+    cursor: text;
+    border: none;
+    border-radius: 16px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boton_login{
+    background-color:rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 5%;
+}
