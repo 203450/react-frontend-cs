@@ -22,8 +22,6 @@ function App() {
       <Route path = "/Register" element = {<Register/>}/>
       <Route path = "/Profile" element = {<Profile/>}/>
       <Route path = "/Profile/Config" element = {<ProfileConfig/>}/>
-      {/* <Route path = "/Profile/:id" element = {<Profile/>}/>
-      <Route path = "/Profile/:id/config" element = {<Profile/>}/> */}
     </Routes>
     </BrowserRouter>
   );

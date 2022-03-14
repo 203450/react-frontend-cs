@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./ProfileConfig.css";
 
 const EditProfile = () => {
-    
+
     var token = localStorage.getItem("token");
     var id_user = localStorage.getItem("user_id");
-    
+
     //Declaración de variables auxiliares
-    
+
     var img = "";
     var aux_user = "";
     var aux_fname = "";
@@ -34,7 +34,7 @@ const EditProfile = () => {
         })
 
         .then((response) => {
-            
+
             if (response.data.url_image == null) {
                 img = "http://127.0.0.1:8000/assets/img/Default.jpg"
             } else {
@@ -50,9 +50,9 @@ const EditProfile = () => {
             document.getElementById("aux_lname").value = aux_lname;
             document.getElementById("aux_email").value = aux_email;
         })
-    
+
     //Método para consumir la actualización de datos del usuario
-    
+
     const consum_actdatos = () => {
 
         var putData = new FormData();
@@ -71,16 +71,16 @@ const EditProfile = () => {
         putData.append("email", emailPut);
 
         axios
-        .put("http://localhost:8000/api/v1/user/config/" + id_user, putData, {
+            .put("http://localhost:8000/api/v1/user/config/" + id_user, putData, {
 
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': "Token " + token,
-            }
-        }).then(() => {
-            alert("se actualizaron los datos");
-            navigate('/Profile')
-        })
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': "Token " + token,
+                }
+            }).then(() => {
+                alert("se actualizaron los datos");
+                navigate('/Profile')
+            })
 
     }
 
@@ -92,8 +92,8 @@ const EditProfile = () => {
 
         putData.append('url_image', document.getElementById('img').files[0]);
         putData.append('id_user', id_user);
-        
-        axios.put("http://localhost:8000/api/v1/user/profile/" + id_user, putData, {
+
+        axios.post("http://localhost:8000/api/v1/user/profile", putData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': "Token " + token,
@@ -105,28 +105,45 @@ const EditProfile = () => {
             alert("Imagen de perfil actualizada")
             window.location.reload();
             
+        }).catch((error) => {
+
+            console.log(error.response);
+            if (error.response.data.id_user) {
+                axios.put("http://localhost:8000/api/v1/user/profile/" + id_user, putData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': "Token " + token,
+                    }
+                }).then((response) => {
+
+                    img = "http://localhost:8000/assets" + response.data.url_image;
+                    document.getElementById('img').src = img;
+                    alert("Imagen de perfil actualizada")
+                    window.location.reload();
+                })
+            }
         })
     }
 
     return (
-        
+
         <div className="boxconfig">
-            <img className="imagep" id="image"/>
+            <img className="imagep" id="image" />
             <br></br>
-            <input className="button is-black" accept="image/*" type="file" id="img"/>
+            <input className="button is-black" accept="image/*" type="file" id="img" />
             <button className="button is-black" onClick={Updateimg}>
                 Guardar imagen
             </button>
             <div className="boxProfile">
                 <table className="tablaconfig">
-                    <tr><td><label className="labeltexto">Username:</label></td><td><input className="inputdatos" id="aux_user" readOnly/></td></tr>
-                    <tr><td colspan="2"><input className="inputactdatos" id="username"/></td></tr>
-                    <tr><td><label className="labeltexto">Nombre:</label></td><td><input className="inputdatos" id="aux_fname" readOnly/></td></tr>
-                    <tr><td colspan="2"><input className="inputactdatos" id="firstname"/></td></tr>
-                    <tr><td><label className="labeltexto">Apellido:</label></td><td><input className="inputdatos" id="aux_lname" readOnly/></td></tr>
-                    <tr><td colspan="2"><input className="inputactdatos" id="lastname"/></td></tr>
-                    <tr><td><label className="labeltexto">Correo:</label></td><td><input className="inputdatos" id="aux_email" readOnly/></td></tr>
-                    <tr><td colspan="2"><input className="inputactdatos" id="email"/></td></tr>
+                    <tr><td><label className="labeltexto">Username:</label></td><td><input className="inputdatos" id="aux_user" readOnly /></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="username" /></td></tr>
+                    <tr><td><label className="labeltexto">Nombre:</label></td><td><input className="inputdatos" id="aux_fname" readOnly /></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="firstname" /></td></tr>
+                    <tr><td><label className="labeltexto">Apellido:</label></td><td><input className="inputdatos" id="aux_lname" readOnly /></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="lastname" /></td></tr>
+                    <tr><td><label className="labeltexto">Correo:</label></td><td><input className="inputdatos" id="aux_email" readOnly /></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="email" /></td></tr>
                 </table>
             </div>
             <button className="button is-black is-rounded" onClick={consum_actdatos}>
@@ -136,7 +153,7 @@ const EditProfile = () => {
                 Regresar al perfil
             </button>
         </div>
-        
+
     )
 }
 
