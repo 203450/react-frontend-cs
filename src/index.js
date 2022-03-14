@@ -4,12 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-//Importacion de axios
-
-import axios from 'axios';
-import Login from './components/Login/login';
-import Register from './components/Register/register';
-
 ReactDOM.render(
   <React.StrictMode>
     <App/>

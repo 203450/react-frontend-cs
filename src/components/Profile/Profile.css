@@ -1,39 +1,37 @@
-.container_profile{
+.boxperfil{
+    color: rgb(255, 255, 255);
+    background-color: rgba(61, 61, 61, 0.9);
+    width: 600px;
+    height: 625px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
     text-align: center;
-    width: 500px;
-    height: 600px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(to bottom, rgb(185, 185, 185), white 80%, rgb(185, 185, 185));
-    border-radius: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
 }
 
-.img_profile{
-    clip-path: circle(at center);
+.imagep{
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
     margin-bottom: 25px;
-    margin-top: 10px;
+    border-radius: 50%;
 }
 
-.fields_profile input{
+.inputdatos{
+    color:rgb(187, 187, 187);
+    font-size: 200px;
+    text-align: center;
     border: none;
-    border-bottom: 1px solid rgb(66, 66, 66);
     background: none;
     cursor: default;
-    width: 100%;
-    text-align: center;
-    top: 70px;
-    font-size: 50px;
-    padding: 1px;
-    margin: 10px;
-    
-}
-
-.fields_profile{
-    display: block;
-    justify-content: center;
-    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    top: 20px;
+    bottom: 20px;
 }
 
 input:focus{

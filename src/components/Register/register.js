@@ -1,17 +1,21 @@
 import axios from 'axios';
-import {
-  Routes,
-  Route,
-  NavLink,
-  BrowserRouter,
-  Navigate,
-  useNavigate,
-  useParams
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./register.css";
 
 function App() {
 
+  //Método para redireccionamiento
+
+  const navigate = useNavigate();
+
+  const Loginv = () => {
+    navigate('/')
+  }
+
+  //Método para consumir la creación de usuarios
+
   const consumir_crear = () => {
+
     var postData = {
       username: document.getElementById('user').value,
       password: document.getElementById('pass').value,
@@ -19,64 +23,64 @@ function App() {
       email: document.getElementById('correo').value,
       first_name: document.getElementById('nombre').value,
       last_name: document.getElementById('apellido').value
-
     }
-    // alert("Hola login");
+
     axios
       .post("http://localhost:8000/api/v1/create_user/", postData, {
         Headers: { 'Content-Type': 'application/json', },
       })
       .then(response => {
         console.log(response.data);
-      }).catch(
-        (error) => {
-          console.log(error.response.data);
-        }
-
-      )
+        Loginv();
+      })
   }
 
   return (
 
-    <div>
-      <NavLink to="/">
-      Log in
-      </NavLink>
-      Registro
-      <div>
-        <div className="box">
-          <form className="form_register">
-            <br></br><label className="label_register">
-              Ingrese el nombre del usuario: 
-            </label>
-            <input type="text" id="user" required />
-            <br></br><label className="label_register">
-              Ingresa la contraseña: 
-            </label>
-            <input type="password" id="pass" required />
-            <br></br><label className="label_register">
-              Ingresa la contraseña nuevamente: 
-            </label>
-            <input type="password" id="pass2" required />
-            <br></br><label className="label_register">
-              Ingrese el correo: 
-            </label>
-            <input type="email" id="correo" required />
-            <br></br><label className="label_register">
-              Ingrese el nombre: 
-            </label>
-            <input type="text" id="nombre" required />
-            <br></br><label className="label_register">
-              Ingrese apellido: 
-            </label>
-            <input type="text" id="apellido" required />
-          </form>
-        </div>
-      </div>
-
-      <header className="App-header">
-        <button onClick={consumir_crear}>Funcion alert</button>
-      </header>
+    <div className="boxregister">
+      <form>
+        <br></br>
+        <label className="labelheader">
+          Registrarse
+        </label>
+        <br></br><br></br>
+        <label className="labelregister">
+          Ingrese el nombre de usuario:
+        </label>
+        <input className="inputdatos_r" type="text" id="user" required/>
+        <br></br>
+        <label className="labelregister">
+          Ingrese el nombre:
+        </label>
+        <input className="inputdatos_r" type="text" id="nombre" required/>
+        <br></br>
+        <label className="labelregister">
+          Ingrese apellido:
+        </label>
+        <input className="inputdatos_r" type="text" id="apellido" required/>
+        <br></br>
+        <label className="labelregister">
+          Ingrese la contraseña:
+        </label>
+        <input className="inputdatos_r" type="password" id="pass" required/>
+        <br></br>
+        <label className="labelregister">
+          Repita la contraseña:
+        </label>
+        <input className="inputdatos_r" type="password" id="pass2" required/>
+        <br></br>
+        <label className="labelregister">
+          Ingrese el correo:
+        </label>
+        <input className="inputdatos_r" type="email" id="correo" required/>
+      </form>
+      <br></br>
+      <button className="button is-black is-rounded" onClick={consumir_crear}>
+        Registrarse
+      </button>
+      <button className="button is-black is-rounded" onClick={Loginv}>
+        Volver al inicio de sesión
+      </button>
     </div>
 
   );

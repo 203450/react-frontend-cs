@@ -1,12 +1,19 @@
 import axios from 'axios';
-import React, { Component } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import {
-  NavLink,
-  useParams
-}from "react-router-dom";
 
 function App() {
+
+  //Método para redireccionamiento
+
+  const navigate = useNavigate();
+
+  const Registerv = () => {
+    navigate('/Register')
+  }
+
+  //Método para consumir el inicio de sesión
 
   const consumir_login = (e) => {
     e.preventDefault()
@@ -15,53 +22,49 @@ function App() {
       password: document.getElementById('passl').value,
     }
 
+    //Métodos para utilizar backend 
+    
     axios
       .post("http://localhost:8000/api/v1/login/", postData, {
         Headers: { "Content-Type": "application/json", },
       })
 
       .then(response => {
-        console.log(response.data);
-        localStorage.setItem('token', response.data.token)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('user_id', response.data.user_id)
-        localStorage.setItem('email', response.data.email)
         window.location = '/Profile'
-      }).catch(
-        (error) => {
-          console.log(error.response.data);
         }
       )
   }
   return (
 
-    <div>
-      <NavLink to="/Register">
-        Registro
-      </NavLink>
-      Login
-
-      <div>
-        <div className="box_login">
-          <form>
-            <br></br><label className="label_login">
-              Ingrese el nombre del usuario: 
-            </label><br></br>
-            <input className = "cuadrito_login" type="text" id='userl' required />
-            <br></br><label className="label_login">
-              Ingresa la contraseña: 
-            </label><br></br>
-
-            <input className = "cuadrito_login" type="text" id='passl' required />
-            <header className="App-header">
-            <br></br><button className="boton_login"onClick={consumir_login}>Ingresar</button>
-            </header> 
-          </form>
-        </div>
-      </div>
-
+    <div className="boxlogin">
+      <form>
+        <br></br>
+        <label className="labelheader">
+          Inicio de sesión
+        </label>
+        <br></br><br></br><br></br>
+        <label className="labellogin">
+          Ingrese el nombre del usuario
+        </label>
+        <br></br>
+        <input className="inputdatos_l" type="text" id='userl' required />
+        <br></br><br></br>
+        <label className="labellogin">
+          Ingrese la contraseña
+        </label>
+        <br></br>
+        <input className="inputdatos_l" type="text" id='passl' required />
+        <br></br><br></br><br></br>
+        <button className="button is-black is-rounded" onClick={consumir_login}>
+          Ingresar
+        </button>
+        <button className="button is-black is-rounded" onClick={Registerv}>
+          Registrarse
+        </button>
+      </form>
     </div>
-
   );
 }
 

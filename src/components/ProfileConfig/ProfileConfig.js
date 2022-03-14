@@ -1,40 +1,59 @@
-import React from 'react'
+import React from "react"
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./ProfileConfig.css";
 
 const EditProfile = () => {
-
+    
     var token = localStorage.getItem("token");
     var id_user = localStorage.getItem("user_id");
+    
+    //Declaración de variables auxiliares
+    
     var img = "";
+    var aux_user = "";
+    var aux_fname = "";
+    var aux_lname = "";
+    var aux_email = "";
 
-    const params = useParams();
+    //Método para redirecionamiento
+
     const navigate = useNavigate();
+
+    const Profileview = () => {
+        navigate('/Profile')
+    }
+
+    //Método para obtener datos y url de imagen del backend
 
     axios
         .get("http://localhost:8000/api/v1/user/profile/" + id_user, {
-        headers: {
-          'Authorization': "Token " + token,
-        },
+            headers: {
+                'Authorization': "Token " + token,
+            },
         })
 
         .then((response) => {
             
-            console.log(response.data);
             if (response.data.url_image == null) {
                 img = "http://127.0.0.1:8000/assets/img/Default.jpg"
             } else {
                 img = "http://localhost:8000/assets" + response.data.url_image;
             }
             document.getElementById("image").src = img;
+            aux_user = response.data.username;
+            aux_fname = response.data.first_name;
+            aux_lname = response.data.last_name;
+            aux_email = response.data.email;
+            document.getElementById("aux_user").value = aux_user;
+            document.getElementById("aux_fname").value = aux_fname;
+            document.getElementById("aux_lname").value = aux_lname;
+            document.getElementById("aux_email").value = aux_email;
         })
-        
-        .catch((error) => {
-            console.log(img);
-            console.error("Error al obtener la imagen");
-        });
-
-    const consum_update_user = () => {
+    
+    //Método para consumir la actualización de datos del usuario
+    
+    const consum_actdatos = () => {
 
         var putData = new FormData();
 
@@ -43,8 +62,9 @@ const EditProfile = () => {
         var lastnPut = document.getElementById("lastname").value;
         var emailPut = document.getElementById("email").value;
 
+        //Peticiones para actualizar datos
+
         putData.append('id_user', id_user);
-        
         putData.append("first_name", firstnPut);
         putData.append("last_name", lastnPut);
         putData.append("username", usernPut);
@@ -57,20 +77,14 @@ const EditProfile = () => {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': "Token " + token,
             }
-        }).then((response) => {
+        }).then(() => {
             alert("se actualizaron los datos");
             navigate('/Profile')
-
-        }).catch((error) => {
-            alert("No se pudieron actualizar los datos: ");
-            console.log(error.response.data);
-            console.log(usernPut)
-            console.log(firstnPut)
-            console.log(lastnPut)
-            console.log(emailPut)
         })
 
     }
+
+    //Método para consumir la actualización de imagenes
 
     const Updateimg = () => {
 
@@ -86,41 +100,43 @@ const EditProfile = () => {
             }
         }).then((response) => {
 
-            console.log(response.data);
             img = "http://localhost:8000/assets" + response.data.url_image;
-            console.log(img);
             document.getElementById('img').src = img;
             alert("Imagen de perfil actualizada")
             window.location.reload();
             
-        }).catch((error) => {
-            console.log(error.response.data);
         })
     }
 
-
     return (
-        <div>Profile Configuration
-            <div className='container'>
-                <div className='boxUp'>
-                    <img id='image'/>
-                    <input accept="image/*" type="file" id="img"></input>
-                    <button onClick={Updateimg}>Change Image</button>
-                </div>
-                <div className='boxDown'>
-                    <label>Username: </label>
-                    <input id="username"/><br/>
-                    <label>Primer Nombre: </label>
-                    <input id="firstname"/><br/>
-                    <label>Ultimo Nombre: </label>
-                    <input id="lastname"/><br/>
-                    <label>Correo: </label>
-                    <input id="email"/><br/>
-
-                    <button onClick={consum_update_user}>Enviar</button>
-                </div>
+        
+        <div className="boxconfig">
+            <img className="imagep" id="image"/>
+            <br></br>
+            <input className="button is-black" accept="image/*" type="file" id="img"/>
+            <button className="button is-black" onClick={Updateimg}>
+                Guardar imagen
+            </button>
+            <div className="boxProfile">
+                <table className="tablaconfig">
+                    <tr><td><label className="labeltexto">Username:</label></td><td><input className="inputdatos" id="aux_user" readOnly/></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="username"/></td></tr>
+                    <tr><td><label className="labeltexto">Nombre:</label></td><td><input className="inputdatos" id="aux_fname" readOnly/></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="firstname"/></td></tr>
+                    <tr><td><label className="labeltexto">Apellido:</label></td><td><input className="inputdatos" id="aux_lname" readOnly/></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="lastname"/></td></tr>
+                    <tr><td><label className="labeltexto">Correo:</label></td><td><input className="inputdatos" id="aux_email" readOnly/></td></tr>
+                    <tr><td colspan="2"><input className="inputactdatos" id="email"/></td></tr>
+                </table>
             </div>
+            <button className="button is-black is-rounded" onClick={consum_actdatos}>
+                Actualizar
+            </button>
+            <button className="button is-black is-rounded" onClick={Profileview}>
+                Regresar al perfil
+            </button>
         </div>
+        
     )
 }
 

@@ -7,19 +7,28 @@ const Profile = () => {
 
   var token = localStorage.getItem('token');
   var user_id = localStorage.getItem('user_id');
+
+  //Declaración de variables auxiliares (datos de usuario)
+
   var img = "";
   var usern = "";
   var firstn = "";
   var lastn = "";
   var email = "";
 
+  //Métodos para redireccionamiento
+
   const navigate = useNavigate()
 
-  const redconfig = () => {
+  const Profileconfig = () => {
     navigate('/Profile/config')
   }
 
-  console.log(token)
+  const Loginv = () => {
+    navigate('/')
+  }
+
+  //Métodos para utilizar backend 
 
   axios
     .get("http://localhost:8000/api/v1/user/profile/" + user_id, {
@@ -28,7 +37,6 @@ const Profile = () => {
       },
     })
     .then((response) => {
-      // console.log(response.data);
 
       img = "http://localhost:8000/assets" + response.data.url_image;
       usern = response.data.username;
@@ -43,33 +51,29 @@ const Profile = () => {
       document.getElementById("email").placeholder = email;
     })
     .catch((error) => {
-      console.log(img);
-      console.error("Error al obtener la imagen");
+      img = "http://127.0.0.1:8000/assets/img/Default.jpg"
+      document.getElementById("imagen").src = img;
     });
 
 
 
   return (
-    <div>Perfil
-      <div className="container_profile">
+      <div className="boxperfil">
+        <img className="imagep" id="imagen" />
+        <br></br>
         <div>
-          <img className="img_profile" id="imagen"/>
+          <input className="inputdatos" id="usern" readOnly/><br></br>
+          <input className="inputdatos" id="firstn" readOnly/><br></br>
+          <input className="inputdatos" id="lastn" readOnly/><br></br>
+          <input className="inputdatos" id="email" readOnly/><br></br>
         </div>
-        <div className="fields_profile">
-          <input className="input_profile" id="usern" readOnly ClassName="inputlogin"/><br></br>
-          <input className="input_profile" id="firstn" readOnly ClassName="inputlogin"/><br></br>
-          <input className="input_profile" id="lastn" readOnly ClassName="inputlogin"/><br></br>
-          <input className="input_profile" id="email" readOnly ClassName="inputlogin-log"></input>
-        </div>
-      </div>
-      <br></br>
-
-      <div onClick={redconfig}>
-        <button>
-          Change Profile
+        <button className="button is-black is-rounded" onClick={Profileconfig}>
+          Actualizar perfil
+        </button>
+        <button className="button is-black is-rounded" onClick={Loginv}>
+          Volver al inicio de sesión
         </button>
       </div>
-    </div>
 
   )
 }
